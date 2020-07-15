@@ -11,6 +11,7 @@ from skybet import names
 import pandas as pd 
 import numpy as np 
 from fractions import Fraction
+import matplotlib.pyplot as plt
 
 #section of code that is used when skybet has boosters
 #lst = []
@@ -52,8 +53,17 @@ for i in range(0,len(odds)-1,2):
 df = pd.DataFrame(list(zip(names, odds,ips,arb1, lst2, oddslst2,ipb,arb2)), 
                columns =['Sky Name', 'Sky odds','imp %','arb1','Bet Name', 'Bet odd','imp %','arb2']) 
 pd.set_option("display.max_rows", None, "display.max_columns", None)
-print(df)
+
+df2 = df.dropna()
+
+_, ax = plt.subplots()
+df2.arb2.plot(kind='bar', ax=ax, color='red')
+df2.arb1.plot(kind='bar', ax=ax, color='green')
+
+#safe = df2[df2['arb1'] < 80 and df2['arb2'] < 100] 
+
+
+print(df2)
 
 
 #print(ipb, ' ',oddslst2,' ', ips)
-
