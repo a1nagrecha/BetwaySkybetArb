@@ -11,8 +11,9 @@ from skybet import names
 import pandas as pd 
 import numpy as np 
 from fractions import Fraction
-import matplotlib.pyplot as plt
-
+import plotly.plotly as py
+import plotly.graph_objs as go
+import chart_studio
 #section of code that is used when skybet has boosters
 #lst = []
 #oddslst = []
@@ -56,14 +57,17 @@ pd.set_option("display.max_rows", None, "display.max_columns", None)
 
 df2 = df.dropna()
 
-_, ax = plt.subplots()
-df2.arb2.plot(kind='bar', ax=ax, color='red')
-df2.arb1.plot(kind='bar', ax=ax, color='green')
+#_, ax = plt.subplots()
+#df2.arb2.plot(kind='bar', color='red')
+#df2.arb1.plot(kind='bar', color='green')
 
-#safe = df2[df2['arb1'] < 80 and df2['arb2'] < 100] 
+safe = df2[(df2['arb1'] < 100)] 
+safe.append(df2[(df2['arb2'] < 100)])
+#df2.plot( y=["arb1", "arb2"], kind="bar")
+df2['arb1'].iplot(kind='hist', xTitle='arb1',
+                  yTitle='count', title='Claps Distribution')
 
-
-print(df2)
+print(safe)
 
 
 #print(ipb, ' ',oddslst2,' ', ips)
