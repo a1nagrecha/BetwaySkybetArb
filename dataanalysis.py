@@ -78,7 +78,18 @@ fig.add_trace(go.Bar(
     marker_color='lightsalmon'
 ))
 
-# Here we modify the tickangle of the xaxis, resulting in rotated labels.
+# Here we modify the tickangle of the xaxis, resulting in rotated labels.#
+fig.update_layout(
+    title="Betting arbitrage between Skybet and Betway",
+    xaxis_title="Fighter 1 vs Fighter 2",
+    yaxis_title="Arbitrage/%",
+    legend_title="Legend Title",
+    font=dict(
+        family="Courier New, monospace",
+        size=18,
+        color="RebeccaPurple"
+    )
+)
 fig.update_layout(barmode='group', xaxis_tickangle=-45)
 fig.update_traces(texttemplate='%{text:.2s}', textposition='outside')
 fig.update_layout(uniformtext_minsize=8, uniformtext_mode='hide')
