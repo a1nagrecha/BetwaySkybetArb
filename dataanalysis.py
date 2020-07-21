@@ -11,9 +11,9 @@ from skybet import names
 import pandas as pd 
 import numpy as np 
 from fractions import Fraction
-import plotly.plotly as py
-import plotly.graph_objs as go
-import chart_studio
+import plotly.express as px
+from plotly.offline import plot
+import plotly.graph_objects as go
 #section of code that is used when skybet has boosters
 #lst = []
 #oddslst = []
@@ -50,24 +50,36 @@ for i in range(0,len(odds)-1,2):
         arb1[i] = ips[i] + ipb[i+1]
         arb2[i] = ips[i+1] + ipb[i]
 
-#creates a dataframe and prints it to terminal
+#creates a dataframe 
 df = pd.DataFrame(list(zip(names, odds,ips,arb1, lst2, oddslst2,ipb,arb2)), 
                columns =['Sky Name', 'Sky odds','imp %','arb1','Bet Name', 'Bet odd','imp %','arb2']) 
 pd.set_option("display.max_rows", None, "display.max_columns", None)
-
+#Removes all rows that contain a null value
 df2 = df.dropna()
-
-#_, ax = plt.subplots()
-#df2.arb2.plot(kind='bar', color='red')
-#df2.arb1.plot(kind='bar', color='green')
-
+df2["Both Name"] = df2["Sky Name"] + " vs " + df["Bet Name"].shift(-1)
+#printing all rows which satisfy the condition of a stat safe bet
 safe = df2[(df2['arb1'] < 100)] 
 safe.append(df2[(df2['arb2'] < 100)])
-#df2.plot( y=["arb1", "arb2"], kind="bar")
-df2['arb1'].iplot(kind='hist', xTitle='arb1',
-                  yTitle='count', title='Claps Distribution')
+print(df)
+#plotting the results to a bar chart
+fig = go.Figure()
+fig.add_trace(go.Bar(
+    x=df2['Both Name'],
+    y=df2['arb1'],
+    text = df2['arb1'],
+    name='arb1',
+    marker_color='indianred'
+))
+fig.add_trace(go.Bar(
+    x=df2['Both Name'],
+    y=df2['arb2'],
+    text = df2['arb2'],
+    name='arb2',
+    marker_color='lightsalmon'
+))
 
-print(safe)
-
-
-#print(ipb, ' ',oddslst2,' ', ips)
+# Here we modify the tickangle of the xaxis, resulting in rotated labels.
+fig.update_layout(barmode='group', xaxis_tickangle=-45)
+fig.update_traces(texttemplate='%{text:.2s}', textposition='outside')
+fig.update_layout(uniformtext_minsize=8, uniformtext_mode='hide')
+plot(fig)

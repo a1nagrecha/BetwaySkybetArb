@@ -7,17 +7,9 @@ Created on Mon Jun 22 12:37:39 2020
 
 
 from selenium import webdriver
-from selenium.webdriver.common.by import By
-from selenium.webdriver.support.select import Select
-from selenium.webdriver.support.ui import WebDriverWait
-from selenium.webdriver.support import expected_conditions as EC
 from bs4 import BeautifulSoup
-import re
 import time 
-import math
-from selenium.common.exceptions import NoSuchElementException
-from selenium.common.exceptions import StaleElementReferenceException
-import pandas as pd
+
 
 
 driver = webdriver.Chrome()
@@ -64,6 +56,9 @@ for i in range(0,len(f2t)):
     
 for i in range(0,len(oddt)-1):
     oddt[i] = oddt[i+1]    
-    
+s = ['cat', 'dog', 'rat', 'pat']
+p = ['orange', 'nana', 'pear', 'kiwi']
+i = s[2], "vs", p[1]
+print(i)
     
 driver.quit()
